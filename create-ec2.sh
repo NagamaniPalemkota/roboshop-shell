@@ -60,5 +60,5 @@ do
         } 
         } ]
          }'
-        validate $? "creating/updating route53 record for $name:"
+    validate $? "creating/updating route53 record for $name:"
 done
