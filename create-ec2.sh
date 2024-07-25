@@ -17,7 +17,7 @@ do
 
     aws ec2 create-tags --resources $instance_id --tags Key=Name,Value=$name
 
-    if [ $name == "web"]
+    if [ $name == "web" ]
     then
         aws ec2 wait instance-running --instance-ids $instance_id
         public_ip=$(ec2 describe-instances --filters "Name=instance_id,Values=$instance_id --query 'Reservations[0].Instances[0].[PublicIpAddress]' --output text)
