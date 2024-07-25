@@ -10,5 +10,5 @@ do
     else
         instance_type="t3.micro"
     fi
-    echo ("Creating instance: $name with instance type: $instance_type")
+    echo "Creating instance: $name with instance type: $instance_type"
 done
