@@ -4,5 +4,11 @@ instances = ("MongoDB" "catalogue" "Redis" "web" "MySQL" "User" "cart" "shipping
 
 for name in ${instances[@]}
 do 
-    echo ("Creating instance $name")
+    if (name == "MySQL") || (name == "shipping")
+    then
+        instance_type = "t3.medium"
+    else
+        instance_type = "t3.micro"
+    fi
+    echo ("Creating instance: $name with instance type: $instance_type")
 done
