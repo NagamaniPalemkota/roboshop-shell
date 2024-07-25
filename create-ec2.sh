@@ -46,8 +46,8 @@ do
          validate $? "Fetching $private_ip for $name"
         ip=$private_ip
     fi
-    aws route53 change-resource-record-sets --hosted-zone-id  $hosted_zone_id --change-batch 
-        '{ 
+    aws route53 change-resource-record-sets --hosted-zone-id  $hosted_zone_id --change-batch '
+        {
         "Comment": " creating a record set for $name", 
         "Changes": [ { 
         "Action": "UPSERT", 
