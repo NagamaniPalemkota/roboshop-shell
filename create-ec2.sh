@@ -49,19 +49,18 @@ do
     aws route53 change-resource-record-sets --hosted-zone-id  $hosted_zone_id --change-batch '
         {
         "Comment": " creating a record set for $name"
-        ,"Changes": [ { 
+        ,"Changes": [{ 
         "Action": "UPSERT"
         ,"ResourceRecordSet": 
         {
-         "Name": "$name.$domain_name"
+         "Name": "'$name.$domain_name'"
          ,"Type": "A"
          ,"TTL": 1
-         ,"ResourceRecords":
-          [ { 
-                "Value": "$ip" 
-          } ] 
+         ,"ResourceRecords": [{ 
+           "Value": "'$ip'" 
+          }] 
          } 
-                    } ]
+           }]
          }
          '
     validate $? "creating/updating route53 record for $name:"
