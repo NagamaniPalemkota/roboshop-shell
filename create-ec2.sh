@@ -59,6 +59,7 @@ do
           "ResourceRecords": [ { "Value": "$ip" } ] 
         } 
         } ]
-         }'
+         }
+         '
     validate $? "creating/updating route53 record for $name:"
 done
