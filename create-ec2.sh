@@ -28,7 +28,7 @@ do
         instance_type="t3.micro"
     fi
     echo "Creating instance: $name with instance type: $instance_type"
-    instance_id=$(aws ec2 run-instances --image-id ami-041e2ea9402c46c32  --instance-type $instance_type  --security-group-ids sg-0068acc7a96fbb265  --vpc-id vpc-07d9e16995c266ce7 --query "Instances[0].InstanceId" --output text)
+    instance_id=$(aws ec2 run-instances --image-id ami-041e2ea9402c46c32  --instance-type $instance_type  --security-group-ids sg-0068acc7a96fbb265 --query "Instances[0].InstanceId" --output text)
     validate $? "Creating instance $name"
 
     aws ec2 create-tags --resources $instance_id --tags Key=Name,Value=$name
