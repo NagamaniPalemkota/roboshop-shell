@@ -37,11 +37,11 @@ do
     if [ $name == "web" ]
     then
         aws ec2 wait instance-running --instance-ids $instance_id
-        public_ip=$(ec2 describe-instances --filters --instance-ids $instance_id --query 'Reservations[0].Instances[0].[PublicIpAddress]' --output text)
+        public_ip=$(aws ec2 describe-instances --filters --instance-ids $instance_id --query 'Reservations[0].Instances[0].[PublicIpAddress]' --output text)
          validate $? "Fetching $public_ip for $name"
         ip=$public_ip
     else
-        private_ip=$(ec2 describe-instances --filters --instance-ids $instance_id --query 'Reservations[0].Instances[0].[PrivateIpAddress]' --output text)
+        private_ip=$(aws ec2 describe-instances --filters --instance-ids $instance_id --query 'Reservations[0].Instances[0].[PrivateIpAddress]' --output text)
          validate $? "Fetching $private_ip for $name"
         ip=$private_ip
     fi
