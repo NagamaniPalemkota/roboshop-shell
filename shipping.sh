@@ -62,7 +62,7 @@ VALIDATE $? "cleaning maven package"
 mv  target/shipping-1.0.jar shipping.jar &>> $LOGFILE
 VALIDATE $? "renaming jar file"
 
-cp /home/ec2-user/roboshop-shell/shipping.service /etc/systemd/system/shipping.service &>> $LOGFILE
+cp -f /home/ec2-user/roboshop-shell/shipping.service /etc/systemd/system/shipping.service &>> $LOGFILE
 VALIDATE $? "copying service file"
 
 systemctl daemon-reload &>> $LOGFILE
