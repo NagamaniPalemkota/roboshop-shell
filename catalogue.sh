@@ -9,7 +9,7 @@ R="\e[31m"
 G="\e[32m"
 Y="\e[33m"
 N="\e[0m"
-
+MONGO_HOST="mongodb.muvva.online"
 
 VALIDATE(){
     if [ $1 -ne 0 ]
@@ -48,7 +48,7 @@ else
 fi
 
 rm -rf /app &>> $LOGFILE 
-VALIDATE $? "removing directory"
+VALIDATE $? "removing existing app directory"
 
 mkdir -p /app &>> $LOGFILE
 VALIDATE $? "Creating directory"
@@ -58,7 +58,6 @@ VALIDATE $? "downloading catalogue code"
 
 cd /app &>> $LOGFILE
 VALIDATE $? "changing to app directory"
-
 
 unzip /tmp/catalogue.zip &>> $LOGFILE
 VALIDATE $? "unzipping the code"
@@ -84,5 +83,11 @@ VALIDATE $? "copying mongo.repo file"
 dnf install -y mongodb-mongosh &>> $LOGFILE
 VALIDATE $? "installing mongodb client mongosh"
 
-mongosh --host mongodb.muvva.online </app/schema/catalogue.js &>> $LOGFILE
-VALIDATE $? "loading the schema to mongodb"
+DB_CHECK=$(mongosh --host $MONGO_HOST --quiet --eval "db.getMongo().getDBNames().indexOf('catalogue')")
+if [ $DB_CHECK -lt 0 ]
+then
+    mongosh --host $MONGO_HOST </app/schema/catalogue.js &>> $LOGFILE
+    VALIDATE $? "loading the schema to mongodb"
+else
+    echo -e "Schema already exists $Y SKIPPING $N"
+fi
