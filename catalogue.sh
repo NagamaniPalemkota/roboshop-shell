@@ -38,7 +38,7 @@ VALIDATE $? "eanbling nodejs"
 dnf install nodejs -y &>> $LOGFILE
 VALIDATE $? "Installing nodejs"
 
-id roboshop
+id roboshop &>> $LOGFILE
 if [ $? -ne 0 ]
 then
     useradd roboshop &>> $LOGFILE
