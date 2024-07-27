@@ -46,7 +46,9 @@ then
 else
     echo -e "User roboshop alreay exists $Y SKIPPING $N"
 fi
-mkdir /app &>> $LOGFILE
+
+
+mkdir -p /app &>> $LOGFILE
 VALIDATE $? "Creating directory"
 
 curl -o /tmp/catalogue.zip https://roboshop-builds.s3.amazonaws.com/catalogue.zip &>> $LOGFILE
