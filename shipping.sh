@@ -63,7 +63,7 @@ mv  target/shipping-1.0.jar shipping.jar &>> $LOGFILE
 VALIDATE $? "renaming jar file"
 
 cp /home/ec2-user/roboshop-shell/shipping.service /etc/systemd/system/shipping.service &>> $LOGFILE
-VALIDATE $? "copying jar file"
+VALIDATE $? "copying service file"
 
 systemctl daemon-reload &>> $LOGFILE
 VALIDATE $? "Daemon reloading the service"
