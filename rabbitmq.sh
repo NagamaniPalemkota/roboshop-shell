@@ -53,5 +53,5 @@ then
     rabbitmqctl set_permissions -p / roboshop ".*" ".*" ".*" &>> $LOGFILE
     VALIDATE $? "setting permissions to roboshop user:"
 else
-    echo "User already exists $Y SKIPPING $N"
+    echo -e "User already exists $Y SKIPPING $N"
 fi
