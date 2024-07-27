@@ -59,10 +59,10 @@ VALIDATE $? "unzipping shipping code"
 mvn clean package &>> $LOGFILE
 VALIDATE $? "cleaning maven package"
 
-mv -f target/shipping-1.0.jar shipping.jar &>> $LOGFILE
+mv  target/shipping-1.0.jar shipping.jar &>> $LOGFILE
 VALIDATE $? "renaming jar file"
 
-mv /home/ec2-user/roboshop-shell/shipping.service /etc/systemd/system/shipping.service &>> $LOGFILE
+cp /home/ec2-user/roboshop-shell/shipping.service /etc/systemd/system/shipping.service &>> $LOGFILE
 VALIDATE $? "copying jar file"
 
 systemctl daemon-reload &>> $LOGFILE
