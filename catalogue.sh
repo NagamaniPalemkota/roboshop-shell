@@ -47,6 +47,8 @@ else
     echo -e "User roboshop alreay exists $Y SKIPPING $N"
 fi
 
+rm -rf /app &>> $LOGFILE 
+VALIDATE $? "removing directory"
 
 mkdir -p /app &>> $LOGFILE
 VALIDATE $? "Creating directory"
