@@ -53,6 +53,9 @@ VALIDATE $? "downloading shipping code"
 cd /app &>> $LOGFILE
 VALIDATE $? "changing to app directory"
 
+unzip /tmp/shipping.zip &>> $LOGFILE
+VALIDATE $? "unzipping shipping code"
+
 mvn clean package &>> $LOGFILE
 VALIDATE $? "cleaning maven package"
 
