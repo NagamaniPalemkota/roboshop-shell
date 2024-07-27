@@ -9,7 +9,7 @@ R="\e[31m"
 G="\e[32m"
 Y="\e[33m"
 N="\e[0m"
-
+MYSQL_HOST="mysql.muvva.online"
 
 VALIDATE(){
     if [ $1 -ne 0 ]
@@ -77,9 +77,15 @@ VALIDATE $? "starting the shipping service"
 dnf install mysql -y &>> $LOGFILE
 VALIDATE $? "Installing mysql"
 
-
-mysql -h mysql.muvva.online -uroot -pRoboShop@1 < /app/schema/shipping.sql &>> $LOGFILE
-VALIDATE $? "loading shipping schema into mysql"
+mysql -h MYSQL_HOST -uroot -pRoboShop@1 -e "use cities"
+if [ $? -ne 0 ]
+then
+    echo "Schema is loading:"
+    mysql -h MYSQL_HOST -uroot -pRoboShop@1 < /app/schema/shipping.sql &>> $LOGFILE
+    VALIDATE $? "loading shipping schema into mysql"
+else
+    echo -e "Schema exists $Y SKIPPING $N"
+fi
 
 systemctl restart shipping &>> $LOGFILE
 VALIDATE $? "Restarting the shipping service"
