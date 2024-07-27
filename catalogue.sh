@@ -30,7 +30,7 @@ else
 fi
 
 dnf module disable nodejs -y &>> $LOGFILE
-VALIDATE $? "disabling mongodb"
+VALIDATE $? "disabling nodejs"
 
 dnf module enable nodejs:20 -y &>> $LOGFILE
 VALIDATE $? "eanbling nodejs"

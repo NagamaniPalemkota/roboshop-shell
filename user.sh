@@ -9,6 +9,7 @@ R="\e[31m"
 G="\e[32m"
 Y="\e[33m"
 N="\e[0m"
+MONGO_HOST="mongodb.muvva.online"
 
 VALIDATE(){
     if [ $1 -ne 0 ]
@@ -52,27 +53,41 @@ VALIDATE $? "removing existing app directory"
 mkdir -p /app &>> $LOGFILE
 VALIDATE $? "Creating directory"
 
-curl -o /tmp/cart.zip https://roboshop-builds.s3.amazonaws.com/cart.zip &>> $LOGFILE
-VALIDATE $? "downloading cart code"
+curl -o /tmp/user.zip https://roboshop-builds.s3.amazonaws.com/user.zip &>> $LOGFILE
+VALIDATE $? "downloading user code"
 
 cd /app &>> $LOGFILE
 VALIDATE $? "changing to app directory"
 
-unzip /tmp/cart.zip &>> $LOGFILE
+unzip /tmp/user.zip &>> $LOGFILE
 VALIDATE $? "unzipping the code"
 
 npm install &>> $LOGFILE
 VALIDATE $? "installing dependencies"
 
-cp /home/ec2-user/roboshop-shell/cart.service /etc/systemd/system/cart.service &>> $LOGFILE
-VALIDATE $? "copying cart service file"
+cp /home/ec2-user/roboshop-shell/user.service /etc/systemd/system/user.service &>> $LOGFILE
+VALIDATE $? "copying user service file"
 
 systemctl daemon-reload &>> $LOGFILE
 VALIDATE $? "Daemon reloading the service"
 
-systemctl enable cart &>> $LOGFILE
-VALIDATE $? "enabling the cart service"
+systemctl enable user &>> $LOGFILE
+VALIDATE $? "enabling the user service"
 
-systemctl start cart &>> $LOGFILE
-VALIDATE $? "starting the cart service"
+systemctl start user &>> $LOGFILE
+VALIDATE $? "starting the user service"
 
+cp /home/ec2-user/roboshop-shell/mongo.repo /etc/yum.repos.d/mongo.repo &>> $LOGFILE
+VALIDATE $? "copying mongo.repo file"
+
+dnf install -y mongodb-mongosh &>> $LOGFILE
+VALIDATE $? "installing mongodb client mongosh"
+
+DB_CHECK=$(mongosh --host $MONGO_HOST --quiet --eval "db.getMongo().getDBNames().indexOf('users')") &>> $LOGFILE
+if [ $DB_CHECK -lt 0 ]
+then
+    mongosh --host $MONGO_HOST </app/schema/user.js &>> $LOGFILE
+    VALIDATE $? "loading the user schema to mongodb"
+else
+    echo -e "Schema already exists $Y SKIPPING $N"
+fi
