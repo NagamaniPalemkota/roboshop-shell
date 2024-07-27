@@ -83,7 +83,7 @@ VALIDATE $? "copying mongo.repo file"
 dnf install -y mongodb-mongosh &>> $LOGFILE
 VALIDATE $? "installing mongodb client mongosh"
 
-DB_CHECK=$(mongosh --host $MONGO_HOST --quiet --eval "db.getMongo().getDBNames().indexOf('catalogue')")
+DB_CHECK=$(mongosh --host $MONGO_HOST --quiet --eval "db.getMongo().getDBNames().indexOf('catalogue')") &>> $LOGFILE
 if [ $DB_CHECK -lt 0 ]
 then
     mongosh --host $MONGO_HOST </app/schema/catalogue.js &>> $LOGFILE
